@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
+import addTodo from './reducers/todoListReducer';
 
 class App extends Component {
 
@@ -17,11 +18,13 @@ class App extends Component {
   handleOnSubmit = event => {
     event.preventDefault();
     console.log("Todo being added: ", this.state.todo);
-    this.props.dispatch({ type: 'ADD_TODO', todo: this.state.todo });
+    // this.props.dispatch({ type: 'ADD_TODO', todo: this.state.todo });
+    this.props.addTodo();
     this.setState({ todo: '' });
   }
 
   render() {
+    // debugger;
     const renderTodos = () => this.props.todos.map(todo => <li key={todo}>{todo}</li>);
     return (
       <div className="App">
@@ -47,4 +50,12 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => {
+  return {
+    addTodo: () => {
+      dispatch(addTodo())
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
